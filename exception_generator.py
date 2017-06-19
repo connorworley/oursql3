@@ -9,9 +9,11 @@ enum _oursqlx_exception_type _oursqlx_exc_from_errno(int err) {
     switch (err) {
 %(code)s
         default:
+#ifdef ER_ERROR_FIRST
             if (err >= ER_ERROR_FIRST && err <= ER_ERROR_LAST)
                 return _oursqlx_ProgrammingError;
-            else if (err > CR_MIN_ERROR && err < CR_MAX_ERROR)
+#endif
+            if (err > CR_MIN_ERROR && err < CR_MAX_ERROR)
                 return _oursqlx_InterfaceError;
     }
     return _oursqlx_UnknownError;
